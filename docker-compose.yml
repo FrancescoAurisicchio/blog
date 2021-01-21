@@ -1,0 +1,32 @@
+version: '2'
+services:
+  myproject:
+    build: ./
+    container_name: my_project
+    restart: always
+    volumes:
+      - ./code:/var/www/html
+    ports:
+      - 80:80
+  db:
+    image: mysql:8.0
+    volumes:
+      - ./mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: docker_db
+      MYSQL_USER: test
+      MYSQL_PASSWORD: pass
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.1
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: pass
+    ports:
+      - "8080:80"
+volumes:
+  mysql-data:
+  
